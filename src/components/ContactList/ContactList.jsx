@@ -1,14 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Item, Button } from './ContactList.styled';
+import { remove } from '../../redux/ToolkitSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
-const ContactList = ({ contacts, onDeleteContact }) => {
+const ContactList = () => {
+  const dispatch = useDispatch();
+  const contacts = useSelector(state => state.items);
+  const filter = useSelector(state => state.filter);
+
+  const normalizedFilter = filter.toLowerCase();
+  const visibleContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(normalizedFilter)
+  );
+
   return (
     <ul>
-      {contacts.map(({ id, name, number }) => (
+      {visibleContacts.map(({ id, name, number }) => (
         <Item key={id}>
           {name}: {number}
-          <Button type="button" onClick={() => onDeleteContact(id)}>
+          <Button type="button" onClick={() => dispatch(remove(id))}>
             Delete
           </Button>
         </Item>
@@ -27,5 +38,4 @@ ContactList.propTypes = {
       number: PropTypes.string.isRequired,
     }).isRequired
   ),
-  onDeleteContact: PropTypes.func.isRequired,
 };
