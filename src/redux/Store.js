@@ -10,11 +10,11 @@ import {
     PURGE,
     REGISTER,
 } from 'redux-persist';
-import { contactsFilterSlice, itemsSlice } from './ToolkitSlice';
+import { contactsFilterSlice, contactsSlice } from './ToolkitSlice';
 
 
 const rootReducer = combineReducers({
-    items: itemsSlice.reducer,
+    contacts: contactsSlice.reducer,
     filter: contactsFilterSlice.reducer,
 });
 
